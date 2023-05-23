@@ -89,15 +89,16 @@ def coverage_subtopics_user_at_k(predicted, topics, items_topics_dict, topk):
         float: The value of user-level subtopic coverage
     """
     coverage_items_user = 0.0
-    topics_list_one_user = []
     num_users = len(predicted)
     for user_id in range(num_users):
+        topics_set_one_user = set()
         local_depth = min(len(predicted[user_id]), topk)
         item_list_per_user = predicted[user_id][:local_depth]
         for item_id in range(local_depth):
             topic_list_per_user = items_topics_dict[item_list_per_user[item_id]]
-            topics_list_one_user.append(topic_list_per_user)
-        topics_per_user = len(set(sum(topics_list_one_user, []))) / len(topics)
+            topics_set_one_user = topics_set_one_user | set(
+                topic_list_per_user)
+        topics_per_user = len(set(topics_set_one_user)) / topic_num
         coverage_items_user += topics_per_user
     return coverage_items_user / num_users
 
