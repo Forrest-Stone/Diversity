@@ -97,7 +97,7 @@ def coverage_subtopics_user_at_k(predicted, topics, items_topics_dict, topk):
         for item_id in range(local_depth):
             topic_list_per_user = items_topics_dict[item_list_per_user[item_id]]
             topics_list_one_user.append(topic_list_per_user)
-        topics_per_user = set(sum(topics_list_one_user, [])) / len(topics)
+        topics_per_user = len(set(sum(topics_list_one_user, []))) / len(topics)
         coverage_items_user += topics_per_user
     return coverage_items_user / num_users
 
